@@ -1,0 +1,95 @@
+import 'package:erisrental/models/cart_model.dart';
+import 'package:flutter/material.dart';
+import 'package:erisrental/theme.dart';
+import 'package:intl/intl.dart'; // Import library untuk mengolah tanggal
+import 'package:erisrental/config.dart';
+
+
+class CartCard extends StatelessWidget {
+  final CartModel cart;
+  CartCard(this.cart);
+
+  @override
+  Widget build(BuildContext context) {
+    // Menghitung perbedaan hari antara tanggal sewa dan tanggal kembali
+    int daysDifference = cart.tglKembali.difference(cart.tglSewa).inDays + 1;
+
+    return Container(
+      margin: EdgeInsets.only(top: defaultMargin),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      decoration:
+          BoxDecoration(border: Border.all(width: 2.0, color: priceColor)),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 60,
+                height: 60,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  image: DecorationImage(
+                    image: NetworkImage(
+                        '${AppConfig.baseUrl}/storage/posts/${cart.mobil.image}'),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('${cart.mobil.merk?.nama}', style: blackTextStyle),
+                        Image.asset('assets/icon_remove.png', width: 10),
+                      ],
+                    ),
+                    Text('${cart.mobil.nama}',
+                        style: blackTextStyle.copyWith(fontWeight: semiBold)),
+                    Text('${cart.mobil.tahunBuat}', style: priceTextStyle),
+                    SizedBox(height: 15),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Tanggal Pinjam',
+                            style:
+                                blackTextStyle.copyWith(fontWeight: semiBold)),
+                        Text(DateFormat('yyyy-MM-dd').format(cart.tglSewa),
+                            style: priceTextStyle), // Format tanggal
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Tanggal Kembali',
+                            style:
+                                blackTextStyle.copyWith(fontWeight: semiBold)),
+                        Text(DateFormat('yyyy-MM-dd').format(cart.tglKembali),
+                            style: priceTextStyle),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Durasi',
+                            style:
+                                blackTextStyle.copyWith(fontWeight: semiBold)),
+                        SizedBox(height: 2),
+                        Text(daysDifference.toString(),
+                            style: blackTextStyle.copyWith(
+                                fontWeight:
+                                    medium)), // Menampilkan perbedaan hari
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
