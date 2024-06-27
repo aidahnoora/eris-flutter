@@ -8,14 +8,18 @@ class TransaksiService {
     var url = Uri.parse('${AppConfig.baseUrl}/transaksis');
     var headers = {
       'Content-Type': 'application/json',
-      'Authorization': token,
-      };
+      'Authorization': 'Bearer $token',
+    };
     var response = await http.get(
       url, 
       headers: headers
     );
 
-    print(response.body);
+    // Debugging print statements
+    print('Request URL: $url');
+    print('Request Headers: $headers');
+    print('Response Status Code: ${response.statusCode}');
+    print('Response Body: ${response.body}');
 
     if (response.statusCode == 200) {
       List data = jsonDecode(response.body)['data']['data'];

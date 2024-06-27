@@ -111,7 +111,7 @@ class ProductCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '${mobil.nama}',
+                    '${mobil.nama} (Stok : ${mobil.stok})',
                     style: blackTextStyle.copyWith(
                       fontWeight: semiBold,
                     ),

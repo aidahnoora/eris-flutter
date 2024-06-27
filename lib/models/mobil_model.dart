@@ -14,6 +14,7 @@ class MobilModel {
   MerkModel? merk;
   DateTime? createdAt;
   DateTime? updatedAt;
+  String? stok;
 
   MobilModel({
     this.id,
@@ -29,6 +30,7 @@ class MobilModel {
     this.merk,
     this.createdAt,
     this.updatedAt,
+    this.stok,
   });
 
   MobilModel.fromJson(Map<String, dynamic> json) {
@@ -45,6 +47,7 @@ class MobilModel {
     merk = MerkModel.fromJson(json['merk']);
     createdAt = DateTime.parse(json['created_at']);
     updatedAt = DateTime.parse(json['updated_at']);
+    stok = json['stok'];
   }
 
   Map<String, dynamic> toJson() {
@@ -62,6 +65,7 @@ class MobilModel {
       'merk': merk?.toJson(),
       'created_at': createdAt.toString(),
       'updated_at': updatedAt.toString(),
+      'stok': stok,
     };
   }
 }

@@ -6,6 +6,7 @@ class TransaksiModel {
   MerkModel? merk;
   String? tglSewa;
   String? tglKembali;
+  int? userId;
 
   TransaksiModel({
     this.id,
@@ -13,6 +14,7 @@ class TransaksiModel {
     this.merk,
     this.tglSewa,
     this.tglKembali,
+    this.userId,
   });
 
   TransaksiModel.fromJson(Map<String, dynamic> json) {
@@ -20,6 +22,7 @@ class TransaksiModel {
     totalBayar = double.parse(json['total_bayar'].toString());
     tglSewa = json['tgl_sewa'];
     tglKembali = json['tgl_kembali'];
+    userId = json['user_id'];
   }
 
   Map<String, dynamic> toJson() {
@@ -28,6 +31,7 @@ class TransaksiModel {
       'total_bayar': totalBayar,
       'tgl_sewa': tglSewa,
       'tgl_kembali': tglKembali,
+      'user_id': userId,
     };
   }
 }

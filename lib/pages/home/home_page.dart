@@ -113,6 +113,10 @@ class HomePage extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
+          Text('*Mobil yang ditampilkan adalah mobil ready, stok ada.'),
+          const SizedBox(
+            height: 5,
+          ),
           Container(
             padding: EdgeInsets.all(defaultMargin),
             child: GridView.count(

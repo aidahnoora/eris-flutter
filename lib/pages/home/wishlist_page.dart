@@ -14,9 +14,8 @@ class WishlistPage extends StatelessWidget {
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
     UserModel user = authProvider.user;
 
-    TransaksiProvider transaksiProvider =
-        Provider.of<TransaksiProvider>(context);
-    transaksiProvider.getTransaksis(user.token!);
+    TransaksiProvider transaksiProvider = Provider.of<TransaksiProvider>(context);
+    transaksiProvider.getTransaksis(user.token!, user.id!); // Pass userId
 
     Widget header() {
       return AppBar(
@@ -38,7 +37,7 @@ class WishlistPage extends StatelessWidget {
       return Expanded(
         child: Container(
           width: double.infinity,
-          color: backgroundColor3,
+          color: primaryTextColor,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -50,23 +49,16 @@ class WishlistPage extends StatelessWidget {
                 height: 23,
               ),
               Text(
-                'You don\'t have dream shoes?',
+                'Belum ada transaksi',
                 style: primaryTextStyle.copyWith(
                   fontSize: 16,
                   fontWeight: medium,
                 ),
               ),
               const SizedBox(
-                height: 12,
-              ),
-              Text(
-                'Let\'s find your favourite shoes',
-                style: secondaryTextStyle,
-              ),
-              const SizedBox(
                 height: 20,
               ),
-              Container(
+              SizedBox(
                 height: 44,
                 child: TextButton(
                   onPressed: () {},
@@ -75,7 +67,7 @@ class WishlistPage extends StatelessWidget {
                       horizontal: 24,
                       vertical: 10,
                     ),
-                    backgroundColor: primaryColor,
+                    backgroundColor: priceColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -99,24 +91,35 @@ class WishlistPage extends StatelessWidget {
       return Expanded(
         child: Container(
           color: primaryTextColor,
-          child: ListView(
-            padding: EdgeInsets.symmetric(
-              horizontal: defaultMargin,
-            ),
-            children: transaksiProvider.transaksis
-                .map((transaksi) => WishlistCard(transaksi))
-                .toList(),
+          child: Consumer<TransaksiProvider>(
+            builder: (context, transaksiProvider, child) {
+              return ListView(
+                padding: EdgeInsets.symmetric(
+                  horizontal: defaultMargin,
+                ),
+                children: transaksiProvider.transaksis
+                    .map((transaksi) => WishlistCard(transaksi))
+                    .toList(),
+              );
+            },
           ),
         ),
       );
     }
 
-    return Column(
-      children: [
-        header(),
-        // emptyWishlist(),
-        content(),
-      ],
+    return Scaffold(
+      body: Column(
+        children: [
+          header(),
+          Consumer<TransaksiProvider>(
+            builder: (context, transaksiProvider, child) {
+              return transaksiProvider.transaksis.isEmpty
+                  ? emptyWishlist()
+                  : content();
+            },
+          ),
+        ],
+      ),
     );
   }
 }
